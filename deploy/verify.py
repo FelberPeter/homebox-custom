@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import secrets
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -212,5 +213,17 @@ def verify_persistence():
     record("container restart preserves test records, uploads and idempotency receipts")
     (HERE/"acceptance-runtime.json").write_text(json.dumps(RESULTS,indent=2))
 
+def wait_ready():
+    # Retry only the read-only health probe; never repeat mutating tests here.
+    for attempt in range(30):
+        try:
+            API().get("/status")
+            return
+        except (OSError, urllib.error.URLError):
+            if attempt == 29:
+                raise
+            time.sleep(1)
+
 if __name__=="__main__":
+    wait_ready()
     verify_persistence() if "--persistence" in sys.argv else run()

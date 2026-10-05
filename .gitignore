@@ -84,3 +84,5 @@ deploy/acceptance-runtime.json
 deploy/build.log
 
 __pycache__/
+
+deploy/go-tests.log

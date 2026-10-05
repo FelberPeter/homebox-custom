@@ -116,11 +116,12 @@ be targeted by these commands.
 
 ## Verification
 
-Targeted repository and handler tests passed. They cover generated names,
+The complete Go suite and targeted repository and handler tests passed. They cover generated names,
 limits/pattern validation, repeated generation, conflict consent, copy depths,
 item inclusion, nested items, quantities, fresh/stable IDs, tenant isolation,
 individual data switches, independent files, operation replay and rollback.
-The frontend production build passed. The unchanged upstream release has
+The frontend production build, changed-file ESLint checks and 19 focused Vitest tests passed. The unchanged upstream release has
 198 TypeScript errors in this Windows dependency environment; this is tracked
 separately from production build and custom-feature tests. Final deployment,
-browser and persistence results are recorded in `ACCEPTANCE.md`.
+browser, backup restoration and persistence results are recorded in `ACCEPTANCE.md`.
+A short German operating guide is provided in `BETRIEB.md`.
