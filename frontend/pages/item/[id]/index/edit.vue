@@ -114,9 +114,6 @@
       soldPrice = item.value.soldPrice;
     }
 
-    console.log((item.value.purchasePrice ??= 0));
-    console.log((item.value.soldPrice ??= 0));
-
     const payload: EntityUpdate = {
       ...item.value,
       parentId: parent.value?.id || item.value.parent?.id || null,

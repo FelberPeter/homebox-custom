@@ -101,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watchEffect } from "vue";
+  import { computed, ref } from "vue";
   import { useElementSize, useWindowSize } from "@vueuse/core";
   import { useI18n } from "vue-i18n";
   import type { EntityData, Pose3D, Point2D } from "@/composables/use-barcode-detector";
@@ -120,9 +120,6 @@
   }>();
 
   const { t } = useI18n();
-
-  const formattedPrice = ref("");
-  const formattedTotalPrice = ref("");
 
   const cardRef = ref<HTMLElement>();
   const { width: cardW, height: cardH } = useElementSize(cardRef);
@@ -227,26 +224,6 @@
       transformOrigin: "0 0",
       transform: matrix,
     };
-  });
-
-  let currencyFormatter: ((value: number | string) => string) | null = null;
-
-  watchEffect(async () => {
-    const item = props.entity?.item;
-    const location = props.entity?.location;
-
-    if (!item?.purchasePrice && !location?.totalPrice) {
-      formattedPrice.value = "";
-      formattedTotalPrice.value = "";
-      return;
-    }
-
-    if (!currencyFormatter) {
-      currencyFormatter = await useFormatCurrency();
-    }
-
-    formattedPrice.value = item?.purchasePrice ? currencyFormatter(item.purchasePrice) : "";
-    formattedTotalPrice.value = location?.totalPrice ? currencyFormatter(location.totalPrice) : "";
   });
 
   function handleClick() {

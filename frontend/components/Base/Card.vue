@@ -1,16 +1,17 @@
 <template>
   <Card class="overflow-hidden shadow-xl">
     <CardHeader v-if="$slots.title" class="px-4 py-5 sm:px-6">
-      <component :is="collapsable ? 'button' : 'div'" v-on="collapsable ? { click: toggle } : {}">
+      <button v-if="collapsable" type="button" @click="toggle">
         <h3 class="flex items-center text-lg font-medium leading-6">
           <slot name="title" />
-          <template v-if="collapsable">
-            <span class="ml-2 transition-transform" :class="{ 'rotate-180': collapsed }">
-              <MdiChevronDown class="size-6" />
-            </span>
-          </template>
+          <span class="ml-2 transition-transform" :class="{ 'rotate-180': collapsed }">
+            <MdiChevronDown class="size-6" />
+          </span>
         </h3>
-      </component>
+      </button>
+      <div v-else>
+        <h3 class="flex items-center text-lg font-medium leading-6"><slot name="title" /></h3>
+      </div>
       <div>
         <p v-if="$slots.subtitle" class="mt-1 max-w-2xl text-sm text-foreground/70">
           <slot name="subtitle" />

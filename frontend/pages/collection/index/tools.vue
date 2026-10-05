@@ -19,11 +19,6 @@
               <MdiArrowRight class="ml-2" />
             </template>
           </DetailAction>
-          <DetailAction @action="getBillOfMaterials()">
-            <template #title>{{ $t("tools.reports_set.bill_of_materials") }}</template>
-            {{ $t("tools.reports_set.bill_of_materials_sub") }}
-            <template #button> {{ $t("tools.reports_set.bill_of_materials_button") }} </template>
-          </DetailAction>
         </div>
       </BaseCard>
       <BaseCard>
@@ -211,11 +206,6 @@
     const { data } = await pubApi.status();
     return data;
   });
-
-  const getBillOfMaterials = () => {
-    const url = api.reports.billOfMaterialsURL(prefs.value.collectionId ?? undefined);
-    window.open(url, "_blank");
-  };
 
   const getExportCSV = () => {
     const url = api.items.exportURL(prefs.value.collectionId ?? undefined);
