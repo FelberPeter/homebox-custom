@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+umask 077
 cd "$(dirname "$0")"
 mkdir -p backups
 backup="backups/homebox-custom-$(date +%Y%m%d-%H%M%S).tar.gz"
