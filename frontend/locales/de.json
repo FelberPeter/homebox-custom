@@ -926,6 +926,9 @@
         }
     },
   "custom": {
+    "build_label": "Version: {version} / Commit: {commit}",
+    "create_item": "Neuer Gegenstand",
+    "create_location": "Neuer Lagerort",
     "excluded": "Nicht übernommen",
     "generate": "Unter-Locations erzeugen",
     "copy": "Kopieren",

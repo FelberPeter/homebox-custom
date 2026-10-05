@@ -1030,6 +1030,9 @@
         }
     },
   "custom": {
+    "build_label": "Version: {version} / Commit: {commit}",
+    "create_item": "New item",
+    "create_location": "New location",
     "excluded": "Not included",
     "generate": "Generate sublocations",
     "copy": "Copy",

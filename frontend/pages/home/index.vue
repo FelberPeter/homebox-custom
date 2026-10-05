@@ -35,7 +35,6 @@
   const tags = computed(() => tagsStore.tags);
 
   const itemTable = itemsTable(api);
-  const search = ref("");
   const { openDialog } = useDialog();
   function create(baseType: "item" | "location") {
     openDialog(DialogID.CreateEntity, { params: { baseType } });
@@ -45,18 +44,9 @@
 <template>
   <div>
     <BaseContainer class="flex flex-col gap-4">
-      <form class="flex min-w-0 gap-2" @submit.prevent="navigateTo(`/items?q=${encodeURIComponent(search)}`)">
-        <input
-          v-model="search"
-          :aria-label="$t('menu.search')"
-          :placeholder="$t('menu.search')"
-          class="min-h-11 min-w-0 flex-1 rounded border bg-background p-2"
-        />
-        <Button type="submit">{{ $t("menu.search") }}</Button>
-      </form>
       <div class="flex flex-wrap gap-2">
-        <Button @click="create('item')">{{ $t("components.location.create_item") }}</Button
-        ><Button variant="outline" @click="create('location')">{{ $t("locations.create_location") }}</Button>
+        <Button @click="create('item')">{{ $t("custom.create_item") }}</Button
+        ><Button variant="outline" @click="create('location')">{{ $t("custom.create_location") }}</Button>
       </div>
       <section>
         <Subtitle> {{ $t("home.storage_locations") }} </Subtitle>

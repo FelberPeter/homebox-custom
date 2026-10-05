@@ -2,7 +2,7 @@
   <BaseModal :dialog-id="DialogID.CreateEntity">
     <template #title>
       <div class="flex items-center gap-2 text-nowrap">
-        <span>Create</span>
+        <span>{{ $t("global.create") }}</span>
         <EntitySelector
           :selected-entity-type="selectedEntityType?.id"
           :entity-types="subItemCreate ? entityTypes.filter(t => !t.isLocation) : entityTypes"

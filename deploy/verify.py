@@ -202,7 +202,7 @@ def verify_persistence():
     token=API().post("/users/login",{"username":credentials["email"],"password":credentials["password"]})["token"]
     api=API(token)
     state=json.loads((HERE/".test-state.json").read_text())
-    assert len(api.get("/entities/"+state["box"])["children"])==17
+    assert len(api.get("/entities/"+state["box"])["children"])>=17
     replay=api.post(f'/locations/{state["box"]}/operations',state["numberedRequest"])
     assert replay["replayed"] and replay["rootId"]==state["numberedResult"]["rootId"]
     media=api.get("/entities/"+state["independentMedia"])

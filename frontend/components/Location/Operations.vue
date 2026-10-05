@@ -126,7 +126,6 @@
         <DialogDescription>{{ t("custom.limit") }}</DialogDescription></DialogHeader
       >
       <fieldset :disabled="busy" class="grid min-w-0 gap-3">
-        <p class="text-sm">{{ t("custom.limit") }}</p>
         <template v-if="options.action === 'generate'">
           <label
             >{{ t("custom.mode")
@@ -200,7 +199,7 @@
               class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
           /></label>
           <label
-            >{{ t("global.description")
+            >{{ t("items.description")
             }}<textarea
               v-model="options.description"
               maxlength="1000"
@@ -210,7 +209,7 @@
         </template>
         <template v-else>
           <label
-            >{{ t("global.name")
+            >{{ t("items.name")
             }}<input
               v-model="options.name"
               maxlength="255"

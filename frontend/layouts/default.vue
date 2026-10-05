@@ -218,16 +218,15 @@
 
           <footer v-if="status" class="bottom-0 w-full pb-4 text-center">
             <p class="text-center text-sm">
-              <span
-                v-html="
-                  DOMPurify.sanitize(
-                    $t('global.footer.version_link', {
-                      version: status.build.version.replace(/^v/, ''),
-                      build: status.build.commit,
-                    })
-                  )
-                "
-              />
+              <a
+                :href="`https://github.com/FelberPeter/homebox-custom/commit/${status.build.commit}`"
+                target="_blank"
+                rel="noopener"
+              >
+                {{
+                  $t("custom.build_label", { version: status.build.version, commit: status.build.commit.slice(0, 8) })
+                }}
+              </a>
               ~
               <span v-html="DOMPurify.sanitize($t('global.footer.api_link'))" />
             </p>
