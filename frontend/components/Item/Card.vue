@@ -27,7 +27,7 @@
         />
         <div class="absolute inset-x-1 bottom-1">
           <Badge class="text-wrap bg-secondary text-secondary-foreground hover:bg-secondary/70 hover:underline">
-            <NuxtLink v-if="item.parent" :to="`/location/${item.parent.id}`">
+            <NuxtLink v-if="item.parent" :to="parentLink">
               {{ locationString }}
             </NuxtLink>
           </Badge>
@@ -120,12 +120,26 @@
   const objectContain = computed(() => imageUrl.value !== "/no-image.jpg" && !preferences.value.legacyImageFit);
 
   const flatLocations = useFlatLocations();
-  const locationString = computed(
-    () =>
-      (props.locationFlatTree.length ? props.locationFlatTree : flatLocations.value).find(
-        l => l.id === props.item.parent?.id
-      )?.treeString || props.item.parent?.name
+  const parentLocation = computed(() =>
+    (props.locationFlatTree.length ? props.locationFlatTree : flatLocations.value).find(
+      location => location.id === props.item.parent?.id
+    )
   );
+  const parentPath = ref("");
+  watch(
+    () => props.item.parent?.id,
+    async id => {
+      parentPath.value = "";
+      if (!id || parentLocation.value) return;
+      const { data } = await api.items.fullpath(id);
+      if (props.item.parent?.id === id && data) parentPath.value = data.map(entry => entry.name).join(" > ");
+    },
+    { immediate: true }
+  );
+  const locationString = computed(
+    () => parentLocation.value?.treeString || parentPath.value || props.item.parent?.name
+  );
+  const parentLink = computed(() => `/${parentLocation.value ? "location" : "item"}/${props.item.parent?.id}`);
 </script>
 
 <style lang="css"></style>
