@@ -78,3 +78,9 @@ deploy/data/
 deploy/backups/
 
 frontend/custom-lint.log
+
+deploy/.test-*.json
+deploy/acceptance-runtime.json
+deploy/build.log
+
+__pycache__/

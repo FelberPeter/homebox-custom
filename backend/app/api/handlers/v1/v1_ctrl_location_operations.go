@@ -11,7 +11,7 @@ import (
 )
 
 func (ctrl *V1Controller) HandleLocationOperation() errchain.HandlerFunc {
-	return adapters.ActionID("id", func(r *http.Request, id uuid.UUID, data repo.LocationOperation) (repo.LocationOperationResult, error) {
+	handler := adapters.ActionID("id", func(r *http.Request, id uuid.UUID, data repo.LocationOperation) (repo.LocationOperationResult, error) {
 		ctx := services.NewContext(r.Context())
 		result, err := ctrl.repo.Entities.OperateLocation(ctx, ctx.GID, id, data)
 		if err != nil {
@@ -19,4 +19,8 @@ func (ctrl *V1Controller) HandleLocationOperation() errchain.HandlerFunc {
 		}
 		return result, nil
 	}, http.StatusOK)
+	return func(w http.ResponseWriter, r *http.Request) error {
+		r.Body = http.MaxBytesReader(w, r.Body, 64<<10)
+		return handler(w, r)
+	}
 }

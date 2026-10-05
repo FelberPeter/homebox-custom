@@ -185,16 +185,31 @@ func TestLocationOperations(t *testing.T) {
 	require.NoError(t, bucket.WriteAll(ctx, tRepos.Attachments.fullPath(path), []byte("photo test"), nil))
 	photo, err := tClient.Attachment.Create().SetEntityID(root).SetPath(path).SetType(attachment.TypePhoto).SetPrimary(true).SetMimeType("image/png").Save(ctx)
 	require.NoError(t, err)
+
+	thumbPath := tRepos.Attachments.path(tGroup.ID, "thumb-"+uuid.NewString())
+	require.NoError(t, bucket.WriteAll(ctx, tRepos.Attachments.fullPath(thumbPath), []byte("thumbnail test"), nil))
+	thumb, err := tClient.Attachment.Create().SetPath(thumbPath).SetType(attachment.TypeThumbnail).SetMimeType("image/webp").Save(ctx)
+	require.NoError(t, err)
+	_, err = photo.Update().SetThumbnailID(thumb.ID).Save(ctx)
+	require.NoError(t, err)
 	o = LocationOperation{Action: "copy", RequestID: uuid.New(), Name: "Photo copy", Depth: 0, Photos: true}
 	out, err = tRepos.Entities.OperateLocation(ctx, tGroup.ID, root, o)
 	require.NoError(t, err)
-	copiedPhoto, err := tClient.Attachment.Query().Where(attachment.HasEntityWith(entity.ID(out.RootID))).Only(ctx)
+	copiedPhoto, err := tClient.Attachment.Query().Where(attachment.HasEntityWith(entity.ID(out.RootID))).WithThumbnail().Only(ctx)
 	require.NoError(t, err)
 	require.NotEqual(t, path, copiedPhoto.Path)
+	require.NotNil(t, copiedPhoto.Edges.Thumbnail)
+	require.NotEqual(t, thumbPath, copiedPhoto.Edges.Thumbnail.Path)
+	thumbCopyPath := copiedPhoto.Edges.Thumbnail.Path
+
 	require.NoError(t, tRepos.Attachments.Delete(ctx, tGroup.ID, photo.ID))
 	data, err := bucket.ReadAll(ctx, tRepos.Attachments.fullPath(copiedPhoto.Path))
 	require.NoError(t, err)
 	require.Equal(t, "photo test", string(data))
+	thumbData, err := bucket.ReadAll(ctx, tRepos.Attachments.fullPath(thumbCopyPath))
+	require.NoError(t, err)
+	require.Equal(t, "thumbnail test", string(thumbData))
+
 	// A missing source file aborts every database insert.
 	_, err = tClient.Attachment.Create().SetEntityID(root).SetPath("nonexistent/" + uuid.NewString()).SetType(attachment.TypePhoto).Save(ctx)
 	require.NoError(t, err)

@@ -356,9 +356,12 @@ func (r *EntityRepository) OperateLocation(ctx context.Context, gid, sourceID uu
 				return nil, closeErr
 			}
 		}
-		q := tx.Attachment.Create().SetID(aid).SetEntityID(owner).SetType(a.Type).SetTitle(a.Title).SetMimeType(a.MimeType).SetPath(path).SetPrimary(a.Primary)
+		q := tx.Attachment.Create().SetID(aid).SetType(a.Type).SetTitle(a.Title).SetMimeType(a.MimeType).SetPath(path).SetPrimary(a.Primary)
+		if owner != uuid.Nil {
+			q.SetEntityID(owner)
+		}
 		if a.Edges.Thumbnail != nil {
-			thumb, e := cloneAttachment(a.Edges.Thumbnail, owner)
+			thumb, e := cloneAttachment(a.Edges.Thumbnail, uuid.Nil)
 			if e != nil {
 				return nil, e
 			}

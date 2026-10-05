@@ -123,14 +123,17 @@
     >
       <DialogHeader
         ><DialogTitle>{{ t(`custom.${options.action}`) }}</DialogTitle>
-        <DialogDescription>{{t("custom.limit")}}</DialogDescription></DialogHeader
+        <DialogDescription>{{ t("custom.limit") }}</DialogDescription></DialogHeader
       >
       <fieldset :disabled="busy" class="grid min-w-0 gap-3">
         <p class="text-sm">{{ t("custom.limit") }}</p>
         <template v-if="options.action === 'generate'">
           <label
             >{{ t("custom.mode")
-            }}<select v-model="options.mode" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground">
+            }}<select
+              v-model="options.mode"
+              class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+            >
               <option value="number">{{ t("custom.number") }}</option>
               <option value="grid">{{ t("custom.grid") }}</option>
             </select></label
@@ -138,40 +141,87 @@
           <div v-if="options.mode === 'number'" class="grid grid-cols-2 gap-3">
             <label
               >{{ t("custom.count")
-              }}<input v-model.number="options.count" type="number" min="1" max="200" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+              }}<input
+                v-model.number="options.count"
+                type="number"
+                min="1"
+                max="200"
+                class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
             /></label>
             <label
               >{{ t("custom.digits")
-              }}<input v-model.number="options.digits" type="number" min="0" max="8" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+              }}<input
+                v-model.number="options.digits"
+                type="number"
+                min="0"
+                max="8"
+                class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
             /></label>
           </div>
           <div v-else class="grid grid-cols-2 gap-3">
             <label
               >{{ t("custom.rows")
-              }}<input v-model.number="options.rows" type="number" min="1" max="26" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+              }}<input
+                v-model.number="options.rows"
+                type="number"
+                min="1"
+                max="26"
+                class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
             /></label>
             <label
               >{{ t("custom.columns")
-              }}<input v-model.number="options.columns" type="number" min="1" max="200" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+              }}<input
+                v-model.number="options.columns"
+                type="number"
+                min="1"
+                max="200"
+                class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
             /></label>
             <label
-              >{{ t("custom.row_start") }}<input v-model="options.rowStart" maxlength="1" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+              >{{ t("custom.row_start")
+              }}<input
+                v-model="options.rowStart"
+                maxlength="1"
+                class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
             /></label>
           </div>
           <label
-            >{{ t("custom.start") }}<input v-model.number="options.start" type="number" min="0" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+            >{{ t("custom.start")
+            }}<input
+              v-model.number="options.start"
+              type="number"
+              min="0"
+              class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
           /></label>
-          <label>{{ t("custom.pattern") }}<input v-model="options.pattern" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground" /></label>
+          <label
+            >{{ t("custom.pattern")
+            }}<input
+              v-model="options.pattern"
+              class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+          /></label>
           <label
             >{{ t("global.description")
-            }}<textarea v-model="options.description" maxlength="1000" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground" />
+            }}<textarea
+              v-model="options.description"
+              maxlength="1000"
+              class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+            />
           </label>
         </template>
         <template v-else>
-          <label>{{ t("global.name") }}<input v-model="options.name" maxlength="255" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground" /></label>
+          <label
+            >{{ t("global.name")
+            }}<input
+              v-model="options.name"
+              maxlength="255"
+              class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+          /></label>
           <label
             >{{ t("custom.destination")
-            }}<select v-model="options.parentId" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground">
+            }}<select
+              v-model="options.parentId"
+              class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+            >
               <option value="00000000-0000-0000-0000-000000000000">
                 {{ t("custom.root") }}
               </option>
@@ -183,12 +233,12 @@
           <template v-if="options.action === 'copy'">
             <label
               >{{ t("custom.depth")
-              }}<select v-model.number="options.depth" class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground">
+              }}<select
+                v-model.number="options.depth"
+                class="block min-h-11 w-full min-w-0 rounded-md border bg-background p-2 text-foreground"
+              >
                 <option :value="-1">{{ t("custom.all") }}</option>
-                <option :value="0">0</option>
-                <option :value="1">1</option>
-                <option :value="2">2</option>
-                <option :value="3">3</option>
+                <option v-for="depth in 101" :key="depth" :value="depth - 1">{{ depth - 1 }}</option>
               </select></label
             >
             <label

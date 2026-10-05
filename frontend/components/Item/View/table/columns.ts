@@ -1,7 +1,7 @@
 import type { Column, ColumnDef } from "@tanstack/vue-table";
 import { h } from "vue";
 import DropdownAction from "./data-table-dropdown.vue";
-import { ArrowDown, ArrowUpDown } from "lucide-vue-next";
+import { ArrowDown, ArrowUpDown, Check, X } from "lucide-vue-next";
 import Button from "~/components/ui/button/Button.vue";
 import Checkbox from "~/components/Form/Checkbox.vue";
 import type { EntitySummary } from "~/lib/api/types/data-contracts";

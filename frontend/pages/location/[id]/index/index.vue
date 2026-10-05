@@ -91,7 +91,6 @@
     openDialog(DialogID.CreateEntity, {
       params: {
         baseType: "item",
-        parentId: locationId.value,
       },
     });
   }
