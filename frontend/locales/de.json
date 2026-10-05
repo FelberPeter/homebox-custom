@@ -44,6 +44,39 @@
         "uses": "Nutzungen"
     },
     "components": {
+        "entity": {
+            "selector": {
+                "placeholder": "Typ auswählen ..."
+            },
+            "create_modal": {
+                "entity_name": "Name",
+                "entity_quantity": "Menge",
+                "entity_description": "Beschreibung",
+                "entity_photo": "Foto",
+                "upload_photos": "Fotos hochladen",
+                "uploaded": "Hochgeladenes Foto",
+                "clear_template": "Vorlage entfernen",
+                "delete_photo": "Foto löschen",
+                "parent_item": "Übergeordneter Gegenstand",
+                "product_tooltip_input_barcode": "Daten anhand eines eingegebenen Barcodes ergänzen",
+                "product_tooltip_scan_barcode": "Daten durch Scannen eines Barcodes ergänzen",
+                "toast": {
+                    "already_creating": "Der Datensatz wird bereits erstellt.",
+                    "create_failed": "Datensatz konnte nicht erstellt werden.",
+                    "create_success": "Datensatz erstellt.",
+                    "failed_load_parent": "Übergeordneter Gegenstand konnte nicht geladen werden. Bitte manuell auswählen.",
+                    "no_canvas_support": "Der Browser unterstützt keine Bildbearbeitung.",
+                    "please_select_entity_type": "Bitte einen Typ auswählen.",
+                    "please_select_location": "Bitte einen Lagerort auswählen.",
+                    "rotate_failed": "Foto konnte nicht gedreht werden: {error}",
+                    "rotate_process_failed": "Gedrehtes Foto konnte nicht verarbeitet werden.",
+                    "some_photos_failed": "Einige Fotos konnten nicht hochgeladen werden.",
+                    "upload_failed": "Foto konnte nicht hochgeladen werden: {photoName}",
+                    "upload_success": "Fotos hochgeladen.",
+                    "uploading_photos": "Fotos werden hochgeladen ..."
+                }
+            }
+        },
         "app": {
             "create_modal": {
                 "createAndAddAnother": "Verwenden Sie {shiftKey} + {enterKey}, um eine weitere zu erstellen und hinzuzufügen.",
