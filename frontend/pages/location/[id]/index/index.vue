@@ -18,11 +18,9 @@
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb";
   import { Button } from "@/components/ui/button";
-  import { Badge } from "@/components/ui/badge";
   import { Separator } from "@/components/ui/separator";
   import { DialogID } from "~/components/ui/dialog-provider/utils";
   import BaseCard from "@/components/Base/Card.vue";
-  import Currency from "~/components/global/Currency.vue";
   import DateTime from "~/components/global/DateTime.vue";
   import LabelMaker from "~/components/global/LabelMaker.vue";
   import Markdown from "~/components/global/Markdown.vue";
@@ -31,6 +29,7 @@
   import ItemViewSelectable from "~/components/Item/View/Selectable.vue";
   import ItemAttachmentsList from "~/components/Item/AttachmentsList.vue";
   import ItemImageDialog from "~/components/Item/ImageDialog.vue";
+  import LocationOperations from "~/components/Location/Operations.vue";
   import LocationCard from "~/components/Location/Card.vue";
   import TagChip from "~/components/Tag/Chip.vue";
 
@@ -59,6 +58,17 @@
     return data;
   });
 
+  const flatLocations = useFlatLocations();
+  const locationPath = computed(
+    () => flatLocations.value.find(l => l.id === locationId.value)?.treeString || location.value?.name
+  );
+  const sortedChildren = computed(() =>
+    [...(location.value?.children || [])].sort((a, b) => a.name.localeCompare(b.name, "de", { numeric: true }))
+  );
+  async function refreshLocation() {
+    await refreshNuxtData(locationId.value);
+    await refreshItemList();
+  }
   const confirm = useConfirm();
 
   async function confirmDelete() {
@@ -81,6 +91,7 @@
     openDialog(DialogID.CreateEntity, {
       params: {
         baseType: "item",
+        parentId: locationId.value,
       },
     });
   }
@@ -264,12 +275,9 @@
                   <BreadcrumbItem> {{ location.name }} </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
+              <p class="break-words text-sm">{{ locationPath }}</p>
               <h1 class="flex items-center gap-3 pb-1 text-2xl">
                 {{ location ? location.name : "" }}
-
-                <Badge v-if="location && location.totalPrice" variant="secondary">
-                  <Currency :amount="location.totalPrice" />
-                </Badge>
               </h1>
               <div class="flex flex-wrap gap-1 text-xs">
                 <div>
@@ -308,6 +316,8 @@
         <Markdown v-if="location && location.description" class="mt-3 text-base" :source="location.description" />
       </Card>
 
+      <LocationOperations :id="location.id" :name="location.name" @done="refreshLocation" />
+
       <!-- Details (notes, custom fields) -->
       <BaseCard v-if="locationDetails.length > 0" class="mt-4">
         <template #title> {{ $t("global.details") }} </template>
@@ -341,17 +351,18 @@
         </div>
       </BaseCard>
 
+      <!-- Child locations -->
+      <section v-if="location && location.children && location.children.length > 0" class="mt-6">
+        <BaseSectionHeader class="mb-5">
+          {{ $t("locations.child_locations") }}
+        </BaseSectionHeader>
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <LocationCard v-for="child in sortedChildren" :key="child.id" :location="child" />
+        </div>
+      </section>
       <!-- Items in this location -->
       <section v-if="location && items">
         <ItemViewSelectable :items="items" @refresh="refreshItemList" />
-      </section>
-
-      <!-- Child locations -->
-      <section v-if="location && location.children && location.children.length > 0" class="mt-6">
-        <BaseSectionHeader class="mb-5"> {{ $t("locations.child_locations") }} </BaseSectionHeader>
-        <div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <LocationCard v-for="child in location.children" :key="child.id" :location="child" />
-        </div>
       </section>
     </div>
   </div>

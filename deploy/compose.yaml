@@ -1,0 +1,27 @@
+name: homebox-custom
+services:
+  homebox:
+    image: homebox-custom:${CUSTOM_COMMIT:?Set CUSTOM_COMMIT to the build commit}
+    build:
+      context: ..
+      dockerfile: Dockerfile.custom
+      args:
+        COMMIT: ${CUSTOM_COMMIT}
+        VERSION: v0.26.2-custom
+    container_name: homebox-custom
+    restart: unless-stopped
+    ports:
+      - "${HOMEBOX_BIND_IP:-0.0.0.0}:${HOMEBOX_PORT:-7746}:7745"
+    environment:
+      TZ: Europe/Berlin
+      HBOX_MODE: production
+      HBOX_OPTIONS_ALLOW_REGISTRATION: "true"
+      HBOX_AUTH_API_KEY_PEPPER: ${HBOX_AUTH_API_KEY_PEPPER:?Generate a private random pepper}
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "-O", "/dev/null", "http://localhost:7745/api/v1/status"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3

@@ -15,7 +15,9 @@
       />
 
       <Separator class="my-2" />
-      <h3 class="text-sm font-medium">{{ $t("components.template.form.default_item_values") }}</h3>
+      <h3 class="text-sm font-medium">
+        {{ $t("components.template.form.default_item_values") }}
+      </h3>
       <div class="flex min-w-0 flex-col gap-2">
         <FormTextField v-model="form.defaultName" :label="$t('components.template.form.item_name')" :max-length="255" />
         <FormTextArea
@@ -49,10 +51,6 @@
         <TagSelector v-model="form.defaultTagIds" :tags="tags ?? []" />
         <div class="flex items-center gap-4">
           <div class="flex items-center gap-2">
-            <Switch id="defaultInsured" v-model:checked="form.defaultInsured" />
-            <Label for="defaultInsured" class="text-sm">{{ $t("global.insured") }}</Label>
-          </div>
-          <div class="flex items-center gap-2">
             <Switch id="defaultLifetimeWarranty" v-model:checked="form.defaultLifetimeWarranty" />
             <Label for="defaultLifetimeWarranty" class="text-sm">{{
               $t("components.template.form.lifetime_warranty")
@@ -63,7 +61,9 @@
 
       <Separator class="my-2" />
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-medium">{{ $t("components.template.form.custom_fields") }}</h3>
+        <h3 class="text-sm font-medium">
+          {{ $t("components.template.form.custom_fields") }}
+        </h3>
         <Button type="button" size="sm" variant="outline" @click="addField">
           <MdiPlus class="mr-1 size-4" />
           {{ $t("global.add") }}
@@ -87,7 +87,9 @@
           </Button>
         </div>
       </div>
-      <p v-else class="text-sm text-muted-foreground">{{ $t("components.template.form.no_custom_fields") }}</p>
+      <p v-else class="text-sm text-muted-foreground">
+        {{ $t("components.template.form.no_custom_fields") }}
+      </p>
 
       <div class="mt-4 flex justify-end">
         <Button type="submit" :loading="loading">{{ $t("global.create") }}</Button>
@@ -140,7 +142,12 @@
     includeWarrantyFields: false,
     includePurchaseFields: false,
     includeSoldFields: false,
-    fields: [] as Array<{ id: string; name: string; type: "text"; textValue: string }>,
+    fields: [] as Array<{
+      id: string;
+      name: string;
+      type: "text";
+      textValue: string;
+    }>,
   });
 
   const NIL_UUID = "00000000-0000-0000-0000-000000000000";

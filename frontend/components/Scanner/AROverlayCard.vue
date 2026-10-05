@@ -27,13 +27,12 @@
           {{ t("scanner_ar.qty") }}: {{ entity.item.quantity }}
         </span>
       </div>
-      <span v-if="entity.item.purchasePrice" class="text-xs text-muted-foreground">
-        {{ formattedPrice }}
-      </span>
+
       <!-- Child items -->
       <div v-if="entity.childItems && entity.childItems.length > 0" class="mt-1 border-t border-border pt-1">
         <span class="text-xs font-medium text-muted-foreground">
-          {{ entity.childItems.length }} {{ t("scanner_ar.child_items", { count: entity.childItems.length }) }}:
+          {{ entity.childItems.length }}
+          {{ t("scanner_ar.child_items", { count: entity.childItems.length }) }}:
         </span>
         <div
           v-for="child in entity.childItems.slice(0, 3)"
@@ -57,13 +56,16 @@
           {{ t("scanner_ar.children", { count: entity.location.children.length }) }}
         </span>
       </div>
-      <span v-if="entity.location.totalPrice" class="text-xs text-muted-foreground">
-        {{ formattedTotalPrice }}
-      </span>
+
       <!-- Items in location -->
       <div v-if="entity.childItems && entity.childItems.length > 0" class="mt-1 border-t border-border pt-1">
         <span class="text-xs font-medium text-muted-foreground">
-          {{ entity.childItems.length }} {{ t("scanner_ar.items_in_location", { count: entity.childItems.length }) }}:
+          {{ entity.childItems.length }}
+          {{
+            t("scanner_ar.items_in_location", {
+              count: entity.childItems.length,
+            })
+          }}:
         </span>
         <div
           v-for="child in entity.childItems.slice(0, 3)"
@@ -81,7 +83,8 @@
     <!-- Asset with multiple items (no single parent item) -->
     <div v-else-if="entity.childItems && entity.childItems.length > 0" class="flex flex-col gap-1">
       <span class="text-sm font-semibold text-foreground">
-        {{ entity.childItems.length }} {{ t("scanner_ar.items", { count: entity.childItems.length }) }}
+        {{ entity.childItems.length }}
+        {{ t("scanner_ar.items", { count: entity.childItems.length }) }}
       </span>
       <div
         v-for="child in entity.childItems.slice(0, 3)"

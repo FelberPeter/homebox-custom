@@ -184,7 +184,10 @@
       <DropdownMenuItem
         @click="
           openDialog(DialogID.ItemChangeDetails, {
-            params: { items: multi ? multi.items.map(row => row.original) : [item!], changeLocation: true },
+            params: {
+              items: multi ? multi.items.map(row => row.original) : [item!],
+              changeLocation: true,
+            },
             onClose: result => {
               if (result) {
                 toast.success(t('components.item.view.table.dropdown.change_location_success'));
@@ -215,25 +218,6 @@
         "
       >
         {{ t("components.item.view.table.dropdown.change_tags") }}
-      </DropdownMenuItem>
-      <!-- maintenance -->
-      <DropdownMenuItem
-        @click="
-          openDialog(DialogID.EditMaintenance, {
-            params: { type: 'create', itemId: multi ? multi.items.map(row => row.original.id) : item!.id },
-            onClose: result => {
-              if (result) {
-                toast.success(t('components.item.view.table.dropdown.create_maintenance_success'));
-              }
-            },
-          })
-        "
-      >
-        {{
-          multi
-            ? t("components.item.view.table.dropdown.create_maintenance_selected")
-            : t("components.item.view.table.dropdown.create_maintenance_item")
-        }}
       </DropdownMenuItem>
       <!-- duplicate -->
       <DropdownMenuItem @click="duplicateItems(multi ? multi.items.map(row => row.original.id) : [item!.id])">

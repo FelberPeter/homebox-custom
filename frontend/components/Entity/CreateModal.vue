@@ -32,7 +32,9 @@
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{{ $t("components.entity.create_modal.product_tooltip_scan_barcode") }}</p>
+                <p>
+                  {{ $t("components.entity.create_modal.product_tooltip_scan_barcode") }}
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -42,7 +44,9 @@
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{{ $t("components.entity.create_modal.product_tooltip_input_barcode") }}</p>
+                <p>
+                  {{ $t("components.entity.create_modal.product_tooltip_input_barcode") }}
+                </p>
               </TooltipContent>
             </Tooltip>
           </ButtonGroup>
@@ -60,7 +64,11 @@
             <MdiFileDocumentOutline class="mt-0.5 size-4 shrink-0 text-primary" />
             <div class="flex-1">
               <h4 class="text-sm font-medium text-foreground">
-                {{ $t("components.template.using_template", { name: templateData.name }) }}
+                {{
+                  $t("components.template.using_template", {
+                    name: templateData.name,
+                  })
+                }}
               </h4>
               <button
                 type="button"
@@ -88,18 +96,19 @@
         <!-- Collapsible details section -->
         <div v-if="showTemplateDetails" class="mt-3 border-t border-primary/20 pt-3">
           <div class="flex flex-col gap-2 text-xs text-muted-foreground">
-            <p v-if="templateData.description" class="text-foreground/80">{{ templateData.description }}</p>
+            <p v-if="templateData.description" class="text-foreground/80">
+              {{ templateData.description }}
+            </p>
             <div class="grid grid-cols-2 gap-x-4 gap-y-1">
               <div v-if="templateData.defaultName">
-                <span class="font-medium">{{ $t("global.name") }}:</span> {{ templateData.defaultName }}
+                <span class="font-medium">{{ $t("global.name") }}:</span>
+                {{ templateData.defaultName }}
               </div>
               <div>
-                <span class="font-medium">{{ $t("global.quantity") }}:</span> {{ templateData.defaultQuantity }}
+                <span class="font-medium">{{ $t("global.quantity") }}:</span>
+                {{ templateData.defaultQuantity }}
               </div>
-              <div>
-                <span class="font-medium">{{ $t("global.insured") }}:</span>
-                {{ templateData.defaultInsured ? $t("global.yes") : $t("global.no") }}
-              </div>
+
               <div v-if="templateData.defaultManufacturer">
                 <span class="font-medium">{{ $t("components.template.form.manufacturer") }}:</span>
                 {{ templateData.defaultManufacturer }}
@@ -193,6 +202,14 @@
         :existing-count="form.photos.length"
         @selected="appendPhotos"
       />
+      <div v-if="locationNameConflict" class="my-3 rounded border border-orange-500 p-3">
+        <p>{{ $t("custom.conflicts") }}</p>
+        <label class="flex min-h-11 items-center gap-2"
+          ><input v-model="allowLocationConflict" type="checkbox" class="size-5" />{{
+            $t("custom.allow_conflicts")
+          }}</label
+        >
+      </div>
       <div class="mt-4 flex flex-row-reverse">
         <ButtonGroup>
           <Button :disabled="loading" type="submit" class="group">
@@ -288,7 +305,9 @@
   const route = useRoute();
 
   const parent = ref();
-  const { query, results, isLoading, triggerSearch } = useItemSearch(api, { immediate: false });
+  const { query, results, isLoading, triggerSearch } = useItemSearch(api, {
+    immediate: false,
+  });
   const subItemCreate = ref();
 
   const tagId = computed(() => {
@@ -439,7 +458,11 @@
 
     // Set the template. A restored template reflects the user's last explicit
     // choice, so treat it as user-selected for override purposes.
-    selectedTemplate.value = { id: data.id, name: data.name, description: data.description } as EntityTemplateSummary;
+    selectedTemplate.value = {
+      id: data.id,
+      name: data.name,
+      description: data.description,
+    } as EntityTemplateSummary;
     templateData.value = data;
     templateUserSelected.value = true;
     form.quantity = data.defaultQuantity;
@@ -577,7 +600,28 @@
     onUnmounted(cleanup);
   });
 
+  const allowLocationConflict = ref(false);
+  const locationNameConflict = computed(
+    () =>
+      selectedEntityType.value?.isLocation &&
+      locations.value.some(
+        l =>
+          l.name.toLocaleLowerCase() === form.name.toLocaleLowerCase() &&
+          (l.parent?.id || null) === (form.location?.id || null)
+      )
+  );
+  watch(
+    () => [form.name, form.location?.id],
+    () => {
+      allowLocationConflict.value = false;
+    }
+  );
   async function create(close = true) {
+    if (locationNameConflict.value && !allowLocationConflict.value) {
+      toast.error(t("custom.conflicts"));
+      return;
+    }
+
     // An empty entityTypeId serializes to "" and fails UUID unmarshalling on the
     // backend, so block creation up front rather than firing a doomed request.
     if (!selectedEntityType.value?.id) {
@@ -666,7 +710,11 @@
     );
 
     if (form.photos.length > 0) {
-      toast.info(t("components.entity.create_modal.toast.uploading_photos", { count: form.photos.length }));
+      toast.info(
+        t("components.entity.create_modal.toast.uploading_photos", {
+          count: form.photos.length,
+        })
+      );
       let uploadError = false;
       for (const photo of form.photos) {
         const { error: attachError } = await api.items.attachments.add(
@@ -679,14 +727,26 @@
 
         if (attachError) {
           uploadError = true;
-          toast.error(t("components.entity.create_modal.toast.upload_failed", { photoName: photo.photoName }));
+          toast.error(
+            t("components.entity.create_modal.toast.upload_failed", {
+              photoName: photo.photoName,
+            })
+          );
           console.error(attachError);
         }
       }
       if (uploadError) {
-        toast.warning(t("components.entity.create_modal.toast.some_photos_failed", { count: form.photos.length }));
+        toast.warning(
+          t("components.entity.create_modal.toast.some_photos_failed", {
+            count: form.photos.length,
+          })
+        );
       } else {
-        toast.success(t("components.entity.create_modal.toast.upload_success", { count: form.photos.length }));
+        toast.success(
+          t("components.entity.create_modal.toast.upload_success", {
+            count: form.photos.length,
+          })
+        );
       }
     }
 

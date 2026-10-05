@@ -67,3 +67,14 @@ frontend/test-results/
 frontend/playwright-report/
 frontend/blob-report/
 frontend/playwright/.cache/
+
+# Local verification artifacts and deployment secrets
+output/
+.playwright-cli/
+frontend/*-check.log
+frontend/*typecheck.log
+deploy/.env
+deploy/data/
+deploy/backups/
+
+frontend/custom-lint.log

@@ -58,7 +58,9 @@ export class AttachmentsAPI extends BaseAPI {
   }
 
   delete(id: string, attachmentId: string) {
-    return this.http.delete<void>({ url: route(`/entities/${id}/attachments/${attachmentId}`) });
+    return this.http.delete<void>({
+      url: route(`/entities/${id}/attachments/${attachmentId}`),
+    });
   }
 
   update(id: string, attachmentId: string, data: ItemAttachmentUpdate) {
@@ -70,11 +72,21 @@ export class AttachmentsAPI extends BaseAPI {
 
   addExternalLink(id: string, sourceType: string, externalId: string, title: string, attachmentType?: string) {
     return this.http.post<
-      { source_type: string; external_id: string; title: string; attachment_type?: string },
+      {
+        source_type: string;
+        external_id: string;
+        title: string;
+        attachment_type?: string;
+      },
       EntityOut
     >({
       url: route(`/entities/${id}/attachments/external`),
-      body: { source_type: sourceType, external_id: externalId, title, attachment_type: attachmentType },
+      body: {
+        source_type: sourceType,
+        external_id: externalId,
+        title,
+        attachment_type: attachmentType,
+      },
     });
   }
 }
@@ -85,14 +97,18 @@ export class FieldsAPI extends BaseAPI {
   }
 
   getAllValues(field: string) {
-    return this.http.get<string[]>({ url: route(`/entities/fields/values`, { field }) });
+    return this.http.get<string[]>({
+      url: route(`/entities/fields/values`, { field }),
+    });
   }
 }
 
 export class ItemMaintenanceAPI extends BaseAPI {
   getLog(itemId: string, filters: MaintenanceFilters = {}) {
     return this.http.get<MaintenanceEntryWithDetails[]>({
-      url: route(`/entities/${itemId}/maintenance`, { status: filters.status?.toString() }),
+      url: route(`/entities/${itemId}/maintenance`, {
+        status: filters.status?.toString(),
+      }),
     });
   }
 
@@ -105,6 +121,13 @@ export class ItemMaintenanceAPI extends BaseAPI {
 }
 
 export class ItemsApi extends BaseAPI {
+  locationOperation(id: string, body: Record<string, unknown>) {
+    return this.http.post<Record<string, unknown>, LocationOperationResult>({
+      url: route(`/locations/${id}/operations`),
+      body,
+    });
+  }
+
   attachments: AttachmentsAPI;
   maintenance: ItemMaintenanceAPI;
   fields: FieldsAPI;
@@ -121,12 +144,17 @@ export class ItemsApi extends BaseAPI {
   }
 
   async getAll(q: ItemsQuery = {}) {
-    const payload = await this.http.get<EntityListResult>({ url: route("/entities", q) });
+    const payload = await this.http.get<EntityListResult>({
+      url: route("/entities", q),
+    });
     return payload;
   }
 
   async create(item: EntityCreate) {
-    const payload = await this.http.post<EntityCreate, EntityOut>({ url: route("/entities"), body: item });
+    const payload = await this.http.post<EntityCreate, EntityOut>({
+      url: route("/entities"),
+      body: item,
+    });
     return payload;
   }
 
@@ -212,7 +240,10 @@ export class ItemsApi extends BaseAPI {
   }
 
   createLocation(body: EntityCreate) {
-    return this.http.post<EntityCreate, EntityOut>({ url: route("/entities"), body });
+    return this.http.post<EntityCreate, EntityOut>({
+      url: route("/entities"),
+      body,
+    });
   }
 
   getLocation(id: string) {
@@ -224,6 +255,25 @@ export class ItemsApi extends BaseAPI {
   }
 
   updateLocation(id: string, body: EntityUpdate) {
-    return this.http.put<EntityUpdate, EntityOut>({ url: route(`/entities/${id}`), body });
+    return this.http.put<EntityUpdate, EntityOut>({
+      url: route(`/entities/${id}`),
+      body,
+    });
   }
+}
+
+export interface LocationOperationResult {
+  nodes: { id: string; name: string; depth: number; location: boolean }[];
+  conflicts: string[];
+  locations: number;
+  items: number;
+  excluded: number;
+  excludedNodes: {
+    id: string;
+    name: string;
+    depth: number;
+    location: boolean;
+  }[];
+  rootId: string;
+  replayed: boolean;
 }

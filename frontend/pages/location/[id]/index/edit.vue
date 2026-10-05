@@ -87,7 +87,30 @@
   const saving = ref(false);
   const parent = ref<any>({});
 
+  const allLocations = useLocationStore();
+  const allowLocationConflict = ref(false);
+  const locationNameConflict = computed(
+    () =>
+      item.value &&
+      allLocations.allLocations.some(
+        l =>
+          l.id !== locationId.value &&
+          l.name.toLocaleLowerCase() === item.value.name.toLocaleLowerCase() &&
+          (l.parent?.id || null) === (parent.value?.id || null)
+      )
+  );
+  watch(
+    () => [item.value?.name, parent.value?.id],
+    () => {
+      allowLocationConflict.value = false;
+    }
+  );
   async function saveLocation(redirect: boolean) {
+    if (locationNameConflict.value && !allowLocationConflict.value) {
+      toast.error(t("custom.conflicts"));
+      return;
+    }
+
     saving.value = true;
 
     const isConvertingToItem = !item.value.entityType?.isLocation;
@@ -328,7 +351,9 @@
 
         <FormTextField v-model="editState.title" :label="$t('items.edit.edit_attachment_dialog.attachment_title')" />
         <div>
-          <Label for="attachment-type"> {{ $t("items.edit.edit_attachment_dialog.attachment_type") }} </Label>
+          <Label for="attachment-type">
+            {{ $t("items.edit.edit_attachment_dialog.attachment_type") }}
+          </Label>
           <Select id="attachment-type" v-model:model-value="editState.type">
             <SelectTrigger>
               <SelectValue :placeholder="$t('items.edit.edit_attachment_dialog.select_type')" />
@@ -391,6 +416,14 @@
         <BaseCard class="overflow-visible">
           <template #title> {{ $t("locations.update_location") }} </template>
           <div class="mb-6 grid gap-4 border-t px-5 pt-2 md:grid-cols-2">
+            <div v-if="locationNameConflict" class="my-3 rounded border border-orange-500 p-3">
+              <p>{{ $t("custom.conflicts") }}</p>
+              <label class="flex min-h-11 items-center gap-2"
+                ><input v-model="allowLocationConflict" type="checkbox" class="size-5" />{{
+                  $t("custom.allow_conflicts")
+                }}</label
+              >
+            </div>
             <LocationSelector v-model="parent" label="Parent Location" :current-location="item" />
             <TagSelector v-model="item.tagIds" :tags="tags" />
             <div class="flex flex-col gap-1">
@@ -472,19 +505,27 @@
             </div>
           </div>
           <div class="mt-4 flex justify-end px-5 pb-4">
-            <Button size="sm" @click="addField"> {{ $t("global.add") }} </Button>
+            <Button size="sm" @click="addField">
+              {{ $t("global.add") }}
+            </Button>
           </div>
         </BaseCard>
 
         <Card ref="attDropZone" class="overflow-visible shadow-xl">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">{{ $t("items.attachments") }}</h3>
-            <p class="text-xs">{{ $t("items.changes_persisted_immediately") }}</p>
+            <h3 class="text-lg font-medium leading-6">
+              {{ $t("items.attachments") }}
+            </h3>
+            <p class="text-xs">
+              {{ $t("items.changes_persisted_immediately") }}
+            </p>
           </div>
           <div class="border-t p-4">
             <div v-if="attDropZoneActive" class="grid grid-cols-2 gap-4">
               <DropZone @drop="dropPhoto"> {{ $t("items.photos") }} </DropZone>
-              <DropZone @drop="dropAttachment"> {{ $t("items.attachments") }} </DropZone>
+              <DropZone @drop="dropAttachment">
+                {{ $t("items.attachments") }}
+              </DropZone>
             </div>
             <button
               v-else

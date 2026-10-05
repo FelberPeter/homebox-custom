@@ -1444,6 +1444,9 @@ func (r *EntityRepository) WipeInventory(ctx context.Context, gid uuid.UUID, wip
 }
 
 func (r *EntityRepository) UpdateByGroup(ctx context.Context, gid uuid.UUID, data EntityUpdate) (EntityOut, error) {
+	if err := r.assertAcyclicParent(ctx, gid, data.ID, data.ParentID); err != nil {
+		return EntityOut{}, err
+	}
 	ctx, span := entityTracer().Start(ctx, "repo.EntityRepository.UpdateByGroup",
 		trace.WithAttributes(
 			attribute.String("group.id", gid.String()),
@@ -1815,6 +1818,11 @@ func patchSyncChildLocations(ctx context.Context, tx *ent.Tx, gid, id, parentID 
 }
 
 func (r *EntityRepository) Patch(ctx context.Context, gid, id uuid.UUID, data EntityPatch) error {
+	if data.ParentID != uuid.Nil {
+		if err := r.assertAcyclicParent(ctx, gid, id, data.ParentID); err != nil {
+			return err
+		}
+	}
 	ctx, span := entityTracer().Start(ctx, "repo.EntityRepository.Patch",
 		trace.WithAttributes(
 			attribute.String("group.id", gid.String()),
@@ -2568,6 +2576,9 @@ func (r *EntityRepository) CreateContainer(ctx context.Context, gid uuid.UUID, d
 
 // UpdateContainer updates a container entity.
 func (r *EntityRepository) UpdateContainer(ctx context.Context, gid, id uuid.UUID, data EntityUpdate) (EntityOut, error) {
+	if err := r.assertAcyclicParent(ctx, gid, id, data.ParentID); err != nil {
+		return EntityOut{}, err
+	}
 	ctx, span := entityTracer().Start(ctx, "repo.EntityRepository.UpdateContainer",
 		trace.WithAttributes(
 			attribute.String("group.id", gid.String()),

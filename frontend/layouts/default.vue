@@ -53,10 +53,14 @@
                     if (btn.dialogId === DialogID.CreateEntity) {
                       if (btn.id == 0)
                         // create item
-                        openDialog(btn.dialogId, { params: { baseType: 'item' } });
+                        openDialog(btn.dialogId, {
+                          params: { baseType: 'item' },
+                        });
                       else if (btn.id == 1)
                         // create location
-                        openDialog(btn.dialogId, { params: { baseType: 'location' } });
+                        openDialog(btn.dialogId, {
+                          params: { baseType: 'location' },
+                        });
                     } else {
                       openDialog(btn.dialogId as NoParamDialogIDs);
                     }
@@ -248,7 +252,6 @@
   import MdiQrcodeScan from "~icons/mdi/qrcode-scan";
   import MdiAccount from "~icons/mdi/account";
   import MdiCog from "~icons/mdi/cog";
-  import MdiWrench from "~icons/mdi/wrench";
   import MdiPlus from "~icons/mdi/plus";
   import MdiLogout from "~icons/mdi/logout";
   import MdiFileDocumentMultiple from "~icons/mdi/file-document-multiple";
@@ -432,13 +435,6 @@
       active: computed(() => route.path === "/templates"),
       name: computed(() => t("menu.templates")),
       to: "/templates",
-    },
-    {
-      icon: MdiWrench,
-      id: 5,
-      active: computed(() => route.path === "/maintenance"),
-      name: computed(() => t("menu.maintenance")),
-      to: "/maintenance",
     },
     {
       icon: MdiAccount,

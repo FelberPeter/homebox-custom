@@ -226,11 +226,6 @@
     },
     {
       type: "checkbox",
-      label: "items.insured",
-      ref: "insured",
-    },
-    {
-      type: "checkbox",
       label: "items.archived",
       ref: "archived",
     },
@@ -247,11 +242,6 @@
       label: "items.purchased_from",
       ref: "purchaseFrom",
       maxLength: 255,
-    },
-    {
-      type: "number",
-      label: "items.purchase_price",
-      ref: "purchasePrice",
     },
     {
       type: "date",
@@ -285,11 +275,6 @@
       label: "items.sold_to",
       ref: "soldTo",
       maxLength: 255,
-    },
-    {
-      type: "number",
-      label: "items.sold_price",
-      ref: "soldPrice",
     },
     {
       type: "date",
@@ -504,7 +489,9 @@
     } as unknown as EntityFieldData);
   }
 
-  const { query, results, isLoading, triggerSearch } = useItemSearch(api, { immediate: false });
+  const { query, results, isLoading, triggerSearch } = useItemSearch(api, {
+    immediate: false,
+  });
   const parent = ref();
 
   async function keyboardSave(e: KeyboardEvent) {
@@ -599,7 +586,9 @@
 
         <FormTextField v-model="editState.title" :label="$t('items.edit.edit_attachment_dialog.attachment_title')" />
         <div>
-          <Label for="attachment-type"> {{ $t("items.edit.edit_attachment_dialog.attachment_type") }} </Label>
+          <Label for="attachment-type">
+            {{ $t("items.edit.edit_attachment_dialog.attachment_type") }}
+          </Label>
           <Select id="attachment-type" v-model:model-value="editState.type">
             <SelectTrigger>
               <SelectValue :placeholder="$t('items.edit.edit_attachment_dialog.select_type')" />
@@ -767,7 +756,9 @@
             </div>
           </div>
           <div class="mt-4 flex justify-end px-5 pb-4">
-            <Button size="sm" @click="addField"> {{ $t("global.add") }} </Button>
+            <Button size="sm" @click="addField">
+              {{ $t("global.add") }}
+            </Button>
           </div>
         </BaseCard>
 
@@ -778,16 +769,30 @@
           @drop.prevent="handleAttachmentCardDrop"
         >
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">{{ $t("items.attachments") }}</h3>
-            <p class="text-xs">{{ $t("items.changes_persisted_immediately") }}</p>
+            <h3 class="text-lg font-medium leading-6">
+              {{ $t("items.attachments") }}
+            </h3>
+            <p class="text-xs">
+              {{ $t("items.changes_persisted_immediately") }}
+            </p>
           </div>
           <div class="border-t p-4">
             <div v-if="attDropZoneActive" class="grid grid-cols-4 gap-4">
-              <DropZone data-link-type="photo" @drop="dropPhoto"> {{ $t("items.photos") }} </DropZone>
-              <DropZone data-link-type="warranty" @drop="dropWarranty"> {{ $t("items.warranty") }} </DropZone>
-              <DropZone data-link-type="manual" @drop="dropManual"> {{ $t("items.manuals") }} </DropZone>
-              <DropZone data-link-type="attachment" @drop="dropAttachment"> {{ $t("items.attachments") }} </DropZone>
-              <DropZone data-link-type="receipt" @drop="dropReceipt"> {{ $t("items.receipts") }} </DropZone>
+              <DropZone data-link-type="photo" @drop="dropPhoto">
+                {{ $t("items.photos") }}
+              </DropZone>
+              <DropZone data-link-type="warranty" @drop="dropWarranty">
+                {{ $t("items.warranty") }}
+              </DropZone>
+              <DropZone data-link-type="manual" @drop="dropManual">
+                {{ $t("items.manuals") }}
+              </DropZone>
+              <DropZone data-link-type="attachment" @drop="dropAttachment">
+                {{ $t("items.attachments") }}
+              </DropZone>
+              <DropZone data-link-type="receipt" @drop="dropReceipt">
+                {{ $t("items.receipts") }}
+              </DropZone>
             </div>
             <button
               v-else
@@ -883,7 +888,9 @@
 
         <Card v-if="preferences.editorAdvancedView" class="overflow-visible shadow-xl">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">{{ $t("items.purchase_details") }}</h3>
+            <h3 class="text-lg font-medium leading-6">
+              {{ $t("items.purchase_details") }}
+            </h3>
           </div>
           <div class="border-t sm:p-0">
             <div v-for="field in purchaseFields" :key="field.ref" class="grid grid-cols-1 sm:divide-y">
@@ -932,7 +939,9 @@
 
         <Card v-if="preferences.editorAdvancedView" class="overflow-visible shadow-xl">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">{{ $t("items.warranty_details") }}</h3>
+            <h3 class="text-lg font-medium leading-6">
+              {{ $t("items.warranty_details") }}
+            </h3>
           </div>
           <div class="border-t sm:p-0">
             <div v-for="field in warrantyFields" :key="field.ref" class="grid grid-cols-1 sm:divide-y">
@@ -981,7 +990,9 @@
 
         <Card v-if="preferences.editorAdvancedView" class="overflow-visible shadow-xl">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">{{ $t("items.sold_details") }}</h3>
+            <h3 class="text-lg font-medium leading-6">
+              {{ $t("items.sold_details") }}
+            </h3>
           </div>
           <div class="border-t sm:p-0">
             <div v-for="field in soldFields" :key="field.ref" class="grid grid-cols-1 sm:divide-y">

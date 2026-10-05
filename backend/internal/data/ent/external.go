@@ -2,6 +2,7 @@ package ent
 
 import (
 	"database/sql"
+	"entgo.io/ent/dialect"
 
 	entsql "entgo.io/ent/dialect/sql"
 )
@@ -11,3 +12,6 @@ import (
 func (c *Client) Sql() *sql.DB {
 	return c.driver.(*entsql.Driver).DB()
 }
+
+// SQLDriver exposes transaction-scoped SQL for the custom operation ledger.
+func (tx *Tx) SQLDriver() dialect.Driver { return tx.driver }

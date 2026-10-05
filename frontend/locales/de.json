@@ -924,5 +924,40 @@
             "failed_zero_datetimes": "Datums- und Uhrzeitwerte konnten nicht zurückgesetzt werden.",
             "wipe_inventory_success": "Lagerbestand erfolgreich gelöscht. { results } Artikel gelöscht."
         }
-    }
+    },
+  "custom": {
+    "excluded": "Nicht übernommen",
+    "generate": "Unter-Locations erzeugen",
+    "copy": "Kopieren",
+    "move": "Verschieben",
+    "limit": "Maximal 200 neue Datensätze pro Vorgang. Rasterzeilen: A-Z.",
+    "mode": "Modus",
+    "number": "Fortlaufende Nummerierung",
+    "grid": "Raster",
+    "count": "Anzahl",
+    "digits": "Mindestanzahl Ziffern",
+    "rows": "Zeilen",
+    "columns": "Spalten",
+    "row_start": "Startbuchstabe",
+    "start": "Startnummer",
+    "pattern": "Namensmuster",
+    "destination": "Ziel-Parent",
+    "root": "Oberste Ebene",
+    "depth": "Tiefe der Unter-Locations",
+    "all": "Alle",
+    "items": "Items kopieren",
+    "photos": "Fotos übernehmen",
+    "attachments": "Sonstige Anhänge übernehmen",
+    "serialNumbers": "Seriennummern übernehmen",
+    "purchaseWarranty": "Kauf- und Garantiedaten übernehmen",
+    "fields_notice": "Custom Fields werden unverändert kopiert. Individuelle Angaben anschließend prüfen. Item-Unterstrukturen werden innerhalb der übernommenen Locations erhalten.",
+    "preview": "Vorschau prüfen",
+    "summary": "{locations} Locations, {items} Items; {excluded} Datensätze ausgeschlossen.",
+    "conflicts": "Gleichnamige Locations",
+    "allow_conflicts": "Mit gleichen Namen bewusst fortfahren",
+    "busy": "Wird ausgeführt ...",
+    "execute": "Ausführen",
+    "operation_failed": "Vorgang fehlgeschlagen. Zahlen, Muster und Ziel prüfen; maximal 200 Datensätze. Bei Verbindungsproblemen unverändert erneut ausführen.",
+    "recent": "Zuletzt bearbeitet"
+  }
 }

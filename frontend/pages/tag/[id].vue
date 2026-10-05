@@ -7,7 +7,6 @@
   import { useDialog } from "@/components/ui/dialog-provider";
   import { Card } from "@/components/ui/card";
   import { Button } from "@/components/ui/button";
-  import { Badge } from "@/components/ui/badge";
   import { Separator } from "@/components/ui/separator";
   import ColorSelector from "@/components/Form/ColorSelector.vue";
   import IconSelector from "@/components/Form/IconSelector.vue";
@@ -17,7 +16,6 @@
   import FormTextField from "~/components/Form/TextField.vue";
   import FormTextArea from "~/components/Form/TextArea.vue";
   import BaseContainer from "@/components/Base/Container.vue";
-  import Currency from "~/components/global/Currency.vue";
   import DateTime from "~/components/global/DateTime.vue";
   import PageQRCode from "~/components/global/PageQRCode.vue";
   import Markdown from "~/components/global/Markdown.vue";
@@ -252,7 +250,9 @@
         />
         <IconSelector v-model="updateData.icon" :label="$t('components.tag.create_modal.tag_icon')" />
         <DialogFooter>
-          <Button type="submit" :loading="updating"> {{ $t("global.update") }} </Button>
+          <Button type="submit" :loading="updating">
+            {{ $t("global.update") }}
+          </Button>
         </DialogFooter>
       </form>
     </DialogContent>
@@ -269,8 +269,14 @@
             class="mb-auto flex size-12 items-center justify-center rounded-full"
             :style="
               tag.color
-                ? { backgroundColor: tag.color, color: getContrastTextColor(tag.color) }
-                : { backgroundColor: 'hsl(var(--secondary))', color: 'hsl(var(--secondary-foreground))' }
+                ? {
+                    backgroundColor: tag.color,
+                    color: getContrastTextColor(tag.color),
+                  }
+                : {
+                    backgroundColor: 'hsl(var(--secondary))',
+                    color: 'hsl(var(--secondary-foreground))',
+                  }
             "
           >
             <component :is="tagIcon" class="size-7" />
@@ -285,9 +291,6 @@
             </div>
             <h1 class="flex items-center gap-3 pb-1 text-2xl">
               {{ tag ? tag.name : "" }}
-              <Badge v-if="items && items.totalPrice" variant="secondary" class="ml-2">
-                <Currency :amount="items.totalPrice" />
-              </Badge>
             </h1>
             <div class="flex flex-wrap gap-1 text-xs">
               <div>

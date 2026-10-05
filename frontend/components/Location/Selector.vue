@@ -8,7 +8,11 @@
       <PopoverTrigger as-child>
         <Button :id="id" variant="outline" role="combobox" :aria-expanded="open" class="w-full justify-between">
           <span class="min-w-0 flex-auto truncate text-left">
-            {{ value && value.name ? value.name : $t("components.location.selector.select_location") }}
+            {{
+              value && value.name
+                ? locations.find(l => l.id === value?.id)?.treeString || value.name
+                : $t("components.location.selector.select_location")
+            }}
           </span>
 
           <span class="ml-2 flex items-center">
@@ -101,7 +105,7 @@
   }
 
   const filteredLocations = computed(() => {
-    const filtered = fuzzysort.go(search.value, locations.value, { key: "name", all: true }).map(i => i.obj);
+    const filtered = fuzzysort.go(search.value, locations.value, { key: "treeString", all: true }).map(i => i.obj);
 
     return filtered;
   });

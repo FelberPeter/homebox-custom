@@ -2,8 +2,6 @@
   import { useI18n } from "vue-i18n";
   import { toast } from "@/components/ui/sonner";
   import { Button } from "@/components/ui/button";
-  import { Label } from "@/components/ui/label";
-  import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
   import MdiLoading from "~icons/mdi/loading";
   import FormTextField from "~/components/Form/TextField.vue";
   import type { CurrenciesCurrency, Group } from "~~/lib/api/types/data-contracts";
@@ -140,25 +138,6 @@
 
       <div v-else class="space-y-4 rounded-md border bg-card p-4">
         <FormTextField v-model="name" :label="$t('global.name')" />
-
-        <div>
-          <Label for="currency"> {{ $t("profile.currency_format") }} </Label>
-          <Select
-            id="currency"
-            :model-value="currencyCode"
-            @update:model-value="val => (currencyCode = String(val || ''))"
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem v-for="c in currencies" :key="c.code" :value="c.code">
-                {{ c.name }}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <p class="m-2 text-sm">{{ $t("profile.example") }}: {{ currencyExample }}</p>
-        </div>
 
         <div class="mt-4">
           <Button variant="secondary" size="sm" :disabled="saving" @click="save">

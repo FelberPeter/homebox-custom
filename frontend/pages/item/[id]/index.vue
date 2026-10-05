@@ -240,10 +240,6 @@
         copyable: true,
       },
       {
-        name: "items.insured",
-        text: item.value?.insured ? "Yes" : "No",
-      },
-      {
         name: "items.archived",
         text: item.value?.archived ? "Yes" : "No",
       },
@@ -370,7 +366,7 @@
     if (preferences.value.showEmpty) {
       return true;
     }
-    return item.value?.purchaseFrom || item.value?.purchasePrice !== 0 || validDate(item.value?.purchaseDate);
+    return item.value?.purchaseFrom || validDate(item.value?.purchaseDate);
   });
 
   const purchaseDetails = computed<Details>(() => {
@@ -378,11 +374,6 @@
       {
         name: "items.purchased_from",
         text: item.value?.purchaseFrom || "",
-      },
-      {
-        name: "items.purchase_price",
-        text: String(item.value?.purchasePrice) || "",
-        type: "currency",
       },
       {
         name: "items.purchase_date",
@@ -403,7 +394,7 @@
     if (preferences.value.showEmpty) {
       return true;
     }
-    return item.value?.soldTo || item.value?.soldPrice !== 0 || validDate(item.value?.soldDate);
+    return item.value?.soldTo || validDate(item.value?.soldDate);
   });
 
   const soldDetails = computed<Details>(() => {
@@ -411,11 +402,6 @@
       {
         name: "items.sold_to",
         text: item.value?.soldTo || "",
-      },
-      {
-        name: "items.sold_price",
-        text: String(item.value?.soldPrice) || "",
-        type: "currency",
       },
       {
         name: "items.sold_at",
@@ -464,11 +450,6 @@
         id: "details",
         name: "global.details",
         to: `/item/${itemId.value}`,
-      },
-      {
-        id: "log",
-        name: "global.maintenance",
-        to: `/item/${itemId.value}/maintenance`,
       },
       {
         id: "edit",
@@ -613,7 +594,11 @@
       return;
     }
 
-    toast.success(t("components.template.toast.saved_as_template", { name: templateData.name }));
+    toast.success(
+      t("components.template.toast.saved_as_template", {
+        name: templateData.name,
+      })
+    );
     navigateTo(`/template/${data.id}`);
   }
 
@@ -845,7 +830,9 @@
               </template>
             </DetailsSection>
             <div v-else>
-              <p class="px-6 pb-4 text-foreground/70">{{ $t("items.no_attachments") }}</p>
+              <p class="px-6 pb-4 text-foreground/70">
+                {{ $t("items.no_attachments") }}
+              </p>
             </div>
           </BaseCard>
 

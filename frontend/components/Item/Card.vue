@@ -34,18 +34,12 @@
         </div>
       </div>
       <div class="col-span-4 flex grow flex-col gap-y-1 p-4 pt-2">
-        <h2 class="line-clamp-2 text-ellipsis text-wrap text-lg font-bold">{{ item.name }}</h2>
+        <h2 class="line-clamp-2 text-ellipsis text-wrap text-lg font-bold">
+          {{ item.name }}
+        </h2>
         <Separator class="mb-1" />
         <TooltipProvider :delay-duration="0">
           <div class="flex items-center gap-2">
-            <Tooltip v-if="item.insured">
-              <TooltipTrigger>
-                <MdiShieldCheck class="size-5 text-primary" />
-              </TooltipTrigger>
-              <TooltipContent>
-                {{ $t("global.insured") }}
-              </TooltipContent>
-            </Tooltip>
             <Tooltip v-if="item.archived">
               <TooltipTrigger>
                 <MdiArchive class="size-5 text-destructive" />
@@ -78,7 +72,6 @@
 
 <script setup lang="ts">
   import type { EntityOut, EntitySummary } from "~~/lib/api/types/data-contracts";
-  import MdiShieldCheck from "~icons/mdi/shield-check";
   import MdiArchive from "~icons/mdi/archive";
   import { Badge } from "@/components/ui/badge";
   import { Card } from "@/components/ui/card";
@@ -126,8 +119,12 @@
 
   const objectContain = computed(() => imageUrl.value !== "/no-image.jpg" && !preferences.value.legacyImageFit);
 
+  const flatLocations = useFlatLocations();
   const locationString = computed(
-    () => props.locationFlatTree.find(l => l.id === props.item.parent?.id)?.treeString || props.item.parent?.name
+    () =>
+      (props.locationFlatTree.length ? props.locationFlatTree : flatLocations.value).find(
+        l => l.id === props.item.parent?.id
+      )?.treeString || props.item.parent?.name
   );
 </script>
 

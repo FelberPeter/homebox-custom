@@ -29,13 +29,6 @@
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-3">
       <div class="flex items-center gap-2">
-        <Switch id="copy-maintenance" v-model="settings.copyMaintenance" />
-        <Label for="copy-maintenance">
-          {{ $t("items.duplicate.copy_maintenance") }}
-        </Label>
-      </div>
-
-      <div class="flex items-center gap-2">
         <Switch id="copy-attachments" v-model="settings.copyAttachments" />
         <Label for="copy-attachments">
           {{ $t("items.duplicate.copy_attachments") }}

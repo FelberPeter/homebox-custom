@@ -23,3 +23,11 @@
 **/values.dev.yaml
 README.md
 !Dockerfile.rootless
+
+!Dockerfile.custom
+**/.nuxt
+**/.output
+**/*.log
+output
+deploy/data
+deploy/backups

@@ -1028,5 +1028,40 @@
             "restore_started": "Restore started — refresh shortly to see imported items.",
             "wipe_inventory_success": "Successfully wiped inventory. { results } items deleted."
         }
-    }
+    },
+  "custom": {
+    "excluded": "Not included",
+    "generate": "Generate sublocations",
+    "copy": "Copy",
+    "move": "Move",
+    "limit": "Maximum 200 new records per operation. Grid rows: A?Z.",
+    "mode": "Mode",
+    "number": "Numbering",
+    "grid": "Grid",
+    "count": "Count",
+    "digits": "Minimum digits",
+    "rows": "Rows",
+    "columns": "Columns",
+    "row_start": "First row letter",
+    "start": "First number",
+    "pattern": "Name pattern",
+    "destination": "Destination parent",
+    "root": "Top level",
+    "depth": "Sublocation depth",
+    "all": "All",
+    "items": "Copy items",
+    "photos": "Copy photos",
+    "attachments": "Copy other attachments",
+    "serialNumbers": "Copy serial numbers",
+    "purchaseWarranty": "Copy purchase and warranty data",
+    "fields_notice": "Custom fields are copied unchanged; review personal information afterwards. Item hierarchies are preserved within included locations.",
+    "preview": "Review preview",
+    "summary": "{locations} locations, {items} items; {excluded} records excluded.",
+    "conflicts": "Duplicate location names",
+    "allow_conflicts": "Continue with duplicate names",
+    "busy": "Working ?",
+    "execute": "Execute",
+    "operation_failed": "Operation failed. Check numbers, pattern and destination; maximum 200 records. After connection errors retry without changing the inputs.",
+    "recent": "Recently edited"
+  }
 }
